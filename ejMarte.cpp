@@ -29,7 +29,9 @@ void resolver(PriorityQueue<tBateria>& baterias, queue<tBateria>& repuestos, con
         bateria = baterias.top(); baterias.pop();
 
         // Actualizamos el tiempo en base a la carga de la bateria y el tiempo transcurrido
-        tiempo = bateria.carga;
+        // El tiempo transcurrido siempre sera menor a la carga total de la bateria porque
+        // en la pq vamos de mirando las baterias de menor a mayor
+        tiempo = bateria.carga - tiempo;
 
         // Descargarla
         bateria.carga -= Z;
@@ -39,6 +41,9 @@ void resolver(PriorityQueue<tBateria>& baterias, queue<tBateria>& repuestos, con
             // Si hay repuesto lo colocamos
             if(!repuestos.empty()){
                 bateria = repuestos.front(); repuestos.pop();
+
+                // La carga empiza a gastarse en este momento en el tiempo, por eso se lo sumamos
+                bateria.carga+=tiempo;
                 baterias.push(bateria);
             }
             // Si no indicamos que no estan todas las baterias funcionando 
